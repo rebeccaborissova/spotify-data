@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Modern Rainbow Website</title>
+    <style>
+        body {
+            font-family: 'Jura', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #000;
+            color: #fff;
+            text-align: center;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #111;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+        }
+
+        section h2 {
+            font-size: 72pt;
+            color: #3498db;
+        }
+
+        section p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .rainbow-accent {
+            background: linear-gradient(45deg, #FF3CAC, #784BA0, #2B86C5, #00D2FF);
+            background-size: 400% 400%;
+            animation: gradient 5s ease infinite;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .search-bar {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #333; /* Dark grey background */
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 10px 0px 10px 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        input[type="submit"] {
+            background: linear-gradient(45deg, #FF3CAC, #784BA0, #2B86C5, #00D2FF);
+            cursor: pointer;
+            width: 92%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <section>
+        <h2><span class="rainbow-accent">GrooveGenius</span></h2>
+        <p>Not sure what song to play next? Use our service to suggest your next song!</p>
+        <p>Always keep the set <span class="rainbow-accent">lively</span>!</p>
+    </section>
+
+    <div class="search-bar">
+        <input type="text" placeholder="What song are you currently playing?" class="rainbow-accent">
+        <input type="submit" value="Suggest my next song">
+    </div>
+
+</body>
+</html>
