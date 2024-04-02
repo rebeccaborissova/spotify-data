@@ -6,10 +6,9 @@ import json
 
 load_dotenv()
 
-client_id = os.getenv("CLIENT_ID")
-client_secret = os.getenv("CLIENT_SECRET")
+client_id = "5af2558b2210451aba54d8e7b892243e"
+client_secret = "ae72dc09479540558d120aa6b8d7da1d"
 
-# authenticates client keys and returns access token
 def get_token():
     auth_string = client_id + ":" + client_secret
     auth_bytes = auth_string.encode("utf-8")
@@ -25,12 +24,10 @@ def get_token():
     json_result = json.loads(result.content)
     token = json_result["access_token"]
     return token
-    
-# takes access token and creates authentication header
+
 def get_auth_header(token):
     return {"Authorization": "Bearer " + token}
 
-# searches for artists by name
 def search_for_artist(token, artist_name):
     url = "https://api.spotify.com/v1/search"
     headers = get_auth_header(token)
@@ -46,15 +43,13 @@ def search_for_artist(token, artist_name):
     
     return json_result[0]
 
-# returns artist's top tracks in the US
 def get_songs_by_artist(token, artist_id):
     url = f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?country=US"
     headers = get_auth_header(token)
     result = get(url, headers=headers)
     json_result = json.loads(result.content)["tracks"]
     return json_result
-    
-# pulls songs from spotify by genre 
+
 def get_songs_by_genre(token, genre):
     url=f"https://api.spotify.com/v1/search?q=genre%3A{genre}&type=track&market=US&limit=50"
     headers = get_auth_header(token)
@@ -62,39 +57,25 @@ def get_songs_by_genre(token, genre):
     json_result = json.loads(result.content)["tracks"]["items"]
     return json_result
 
-def get_popularity(song):
-    return song['popularity']
+def get_all_songs(token):
+    house_songs = get_songs_by_genre(token, "house")
+    techno_songs = get_songs_by_genre(token, "techno")
+    edm_songs = get_songs_by_genre(token, "edm")
+    tech_house_songs = get_songs_by_genre(token, "tech house")
+    dubstep_songs = get_songs_by_genre(token, "dubstep")
+    dnb_songs = get_songs_by_genre(token, "drum and bass")
+    return house_songs + techno_songs + edm_songs + tech_house_songs + dubstep_songs + dnb_songs
 
 
-# example of songs by ACDC
 token = get_token()
-result = search_for_artist(token, "ACDC")
-artist_id = result["id"]
-songs = get_songs_by_artist(token, artist_id)
-print(songs)
+songs = get_all_songs(token)
 
-for idx, song in enumerate(songs):
-    print(f"{idx + 1}.{song['name']}")
 
-# example of songs by 'house' genre
-genre_songs = get_songs_by_genre(token, "house")
-print(genre_songs)
+num = 1
+for genre_song in songs:
+    print(num, ".")
+    print(genre_song['name'], "-", genre_song['artists'][0]['name'])
+    print()
+    num += 1
 
-for genre_song in genre_songs:
-    print(genre_song['name'])
-    
-# example of top 10 
-sorted_house = sorted(genre_songs, key=get_popularity, reverse=True) # sorted in descending order
-house_top_10 = sorted_house[:10]
-print("Top 10 House Songs in the U.S")
-for idx, song in enumerate(house_top_10):
-    print(f"{idx + 1}. {song['name']} by {', '.join(artist['name'] for artist in song['artists'])}")
- 
- # example of bottom 10 
-sorted_house = sorted(genre_songs, key=get_popularity) # sorted in ascending order
-house_bottom_10 = sorted_house[:10]
-print("Bottom 10 House Songs in the U.S")
-for idx, song in enumerate(house_bottom_10):
-    print(f"{idx + 1}. {song['name']} by {', '.join(artist['name'] for artist in song['artists'])}")
- 
 
