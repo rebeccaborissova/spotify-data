@@ -16,4 +16,7 @@ to install all packages
 ## Requests
 ```pip install requests```
 
+## OS
+```pip install os```
+
 
